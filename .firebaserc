@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "apptutorsdojo"
+  },
+  "targets": {
+    "tutor-app-8318e": {
+      "hosting": {
+        "app": [
+          "apptutorsdojo"
+        ]
+      }
+    }
+  }
+}
