@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,9 +10,12 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import Alert from "@material-ui/lab/Alert"
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
+import {useAuth} from './context/AuthContext'
+
 
 function Copyright() {
     return (
@@ -49,6 +52,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const { signUp, currentUser, signOut } = useAuth();
+    const [error, setError] = useState('');
+    const [SignUpSuccessful, setSignUpSuccessful] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
+    async function handleSubmit(e){
+        e.preventDefault();
+
+        if (e.target.password.value !== e.target.password2.value){
+            return setError("Password do not match");
+        }
+
+        try {
+            setError('');
+            setLoading(true);
+            await signUp(e.target.email.value, e.target.password.value);
+            setSignUpSuccessful(true);
+            setTimeout(() => history.push("/login"), 2000);
+        } catch {
+            setError("Failed to create an account");
+        }
+        setLoading('false');
+    }
+    function logOut(){
+        setLoading(false);
+        signOut();
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -60,8 +91,13 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                        {currentUser && currentUser.email}
+                        
+                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete="fname"
@@ -109,6 +145,20 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password2"
+                                label="Confirm Password"
+                                type="password"
+                                id="password2"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        {error && <Grid item xs={12}><Alert severity="error">{error}</Alert></Grid>}
+                        {SignUpSuccessful && <Grid item xs={12}><Alert severity="success">Sign up is successful!</Alert></Grid>}
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -126,8 +176,18 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={loading}
                     >
                         Sign Up
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={logOut}        
+                    >
+                        Sign Out
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
