@@ -63,7 +63,9 @@ function Loginpage() {
             setError('');
             setLoading(true);
             await login(e.target.email.value, e.target.password.value);
-            history.push("/");
+            // temporarily will not go into dashboard, now just show error message that only whitelisted user can login
+            // history.push("/");
+            setError("Currently, only whitelisted users can login for the time being. Please contact us if you need help.")
         } catch {
             setError("Failed to sign in");
             console.log("Failed to sign in");

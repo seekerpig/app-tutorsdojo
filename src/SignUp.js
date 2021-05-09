@@ -95,7 +95,7 @@ export default function SignUp() {
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                        {currentUser && currentUser.email}
+                        {/*currentUser && currentUser.email*/}
                         
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -180,7 +180,7 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Button
+                    {/*<Button
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -188,7 +188,7 @@ export default function SignUp() {
                         onClick={logOut}        
                     >
                         Sign Out
-                    </Button>
+                    </Button>*/}
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link component={RouterLink} to="/login" variant="body2">
