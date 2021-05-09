@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
-    const { signUp, currentUser, signOut } = useAuth();
+    //const { signUp, currentUser, signOut } = useAuth();
+    //currently only signUp is used, currentUser and signOut is hidden
+    const { signUp } = useAuth();
     const [error, setError] = useState('');
     const [SignUpSuccessful, setSignUpSuccessful] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -76,10 +78,11 @@ export default function SignUp() {
         }
         setLoading('false');
     }
-    function logOut(){
+    //temporarily removed due to deploy version for people to see
+    /* function logOut(){
         setLoading(false);
         signOut();
-    }
+    } */
 
     return (
         <Container component="main" maxWidth="xs">

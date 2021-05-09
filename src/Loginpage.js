@@ -55,7 +55,8 @@ function Loginpage() {
     const { login } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
+    //hidden for deploy version
+    //const history = useHistory();
     async function handleSubmit(e){
         e.preventDefault();
 
